@@ -1,9 +1,28 @@
-<h2>ユーザー一覧</h2>
-<% @users.each do |user| %>
-  <div>
-    <%= link_to user_path(user) do %>
-      <%= image_tag user.get_profile_image(100, 100) %>
-      <p><%= user.name %></p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-1">
+    
+<table class="table">
+  <thead>
+    <tr>
+    <th style="width: 100px;">image</th> <!-- Image固定幅 -->
+    <th style="width: 200px;">name</th> <!-- Name固定幅 -->
+      <th style="width: 150px;"></th><!-- show固定幅 -->
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+      <td>
+      <% if user.profile_image.attached? %>
+      <%= image_tag user.profile_image, size: "80x80", class: "img-thumbnail" %>
+    <% else %>
+      <%= image_tag "sample-author1.jpg", size: "80x80", class: "img-thumbnail" %>
     <% end %>
-  </div>
-<% end %>
+    </td>
+        <td><%= link_to user.name, user_path(user) %></td>
+        <td><%= link_to 'Show', user_path(user), class: "btn btn-outline-primary btn-sm" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

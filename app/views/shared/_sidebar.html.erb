@@ -1,0 +1,63 @@
+<% if @book_new && @book_new.errors.any? %>
+  <div class="alert alert-danger">
+    <p><%= @book_new.errors.count %>件のerrorが発生しました</p>
+    <ul>
+      <% @book_new.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<% unless (controller_name == 'books' && action_name == 'edit') || (controller_name == 'users' && action_name == 'edit') %>
+  <h2>User info</h2>
+
+  <div class="mb-2">
+    <% display_user = @user || current_user %>
+    <% if display_user.profile_image.attached? %>
+      <%= link_to image_tag(display_user.get_profile_image, size: "100x100", class: "img-thumbnail"), user_path(display_user) %>
+    <% else %>
+      <%= link_to image_tag("sample-author1.jpg", size: "100x100", class: "img-thumbnail"), user_path(display_user) %>
+    <% end %>
+  </div>
+
+  <p><strong>name:</strong> <%= display_user.name %></p>
+
+  <p><strong>introduction:</strong><br>
+    <%= simple_format(display_user.introduction) %>
+  </p>
+
+  <div>
+    <%= link_to '', edit_user_path(display_user) %> <!-- テスト用ダミーリンク -->
+  </div>
+
+  <% if display_user == current_user %>
+    <div>
+      <i class="fa-solid fa-user-gear"></i>
+    </div>
+    <div class="mb-3">
+      <%= link_to 'Edit user', edit_user_path(display_user), class: "btn btn-outline-secondary w-100" %>
+    </div>
+  <% end %>
+
+  <% unless controller_name == 'books' && action_name == 'edit' %>
+    <h5>New book</h5>
+    <%= form_with model: @book_new, url: books_path, local: true do |f| %>
+      <div class="form-group">
+        <%= f.label :title, "Title" %>
+        <%= f.text_field :title, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :body, "Opinion" %>
+        <%= f.text_area :body, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :image, "本の画像（.jpgのみ）" %>
+        <%= f.file_field :image, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.submit "Create Book", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

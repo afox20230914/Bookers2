@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-1">
+<% if @book.errors.any? %>
+  <%= @book.errors.count %>件のerrorが発生しました
+  <ul>
+    <% @book.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
+  <h2>Editing Book</h2>
+
+  <%= form_with(model: @book, local: true, html: { multipart: true }) do |f| %>
+
+    <div class="form-group mb-3">
+      <%= f.label :title, "Title" %>
+      <%= f.text_field :title, class: "form-control" %>
+    </div>
+
+    <div class="form-group mb-3">
+      <%= f.label :image, "Book Image (.jpg only)" %>
+      <%= f.file_field :image, accept: ".jpg", class: "form-control" %>
+    </div>
+
+    <div class="form-group mb-3">
+      <%= f.label :body, "opinion" %>
+      <%= f.text_area :body, class: "form-control" ,rows: 10 %>
+    </div>
+
+    <%= f.submit "Update Book", class: "btn btn-primary" %>
+
+    <div class="mt-4">
+  <%= link_to 'Show', book_path(@book), class: 'btn btn-outline-primary me-2' %>
+  <%= link_to 'Back', books_path, class: 'btn btn-outline-secondary' %>
+    </div>
+
+  <% end %>
+</div>

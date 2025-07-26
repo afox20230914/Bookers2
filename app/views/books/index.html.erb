@@ -1,19 +1,19 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8 offset-md-1">
-      <% if flash[:notice] %>
-        <div class="alert alert-success">
-          <%= flash[:notice] %>
-        </div>
-      <% end %>
+    <% if flash[:notice] %>
+    <div class="alert alert-success">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
 
-      <h2>Books</h2>
       <table class="table">
         <thead>
           <tr>
-            <th style="width: 100px;">Image</th>
-            <th style="width: 200px;">Title</th>
+            <th style="width: 100px;"></th> <!-- Image固定幅 -->
+            <th>Title</th> <!-- Title固定幅 -->
             <th>Opinion</th>
+            <th>User</th> <!-- User固定幅 -->
           </tr>
         </thead>
         <tbody>
@@ -27,11 +27,17 @@
                 <% end %>
               </td>
               <td><%= link_to book.title, book_path(book) %></td>
-              <td><%= simple_format(book.body) %></td>
+              <td>
+                <div style="max-height: 80px; overflow: hidden; text-overflow: ellipsis;">
+                  <%= simple_format(book.body) %>
+                </div>
+              </td>
+              <td><%= link_to book.user.name, user_path(book.user) %></td>
             </tr>
           <% end %>
         </tbody>
       </table>
+
     </div>
   </div>
 </div>
